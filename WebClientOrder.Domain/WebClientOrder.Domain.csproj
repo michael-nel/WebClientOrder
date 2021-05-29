@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flunt" Version="1.0.4" />
+    <PackageReference Include="MongoDB.Bson" Version="2.12.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\Order\" />
+  </ItemGroup>
+
+</Project>
