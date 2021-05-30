@@ -20,7 +20,7 @@ namespace WebClientOrder.Infra.Repositories
         {
             var result  = await _collection.FindAsync(Builders<Product>.Filter.Eq("Description", description));
             
-            return   result.FirstOrDefault();
+            return result.FirstOrDefault();
         }
     }
 }

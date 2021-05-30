@@ -15,6 +15,9 @@ namespace WebClientOrder.Infra.Context
         private readonly List<Func<Task>> _commands;
         private readonly IConfiguration _configuration;
 
+        public MongoContext() {
+            _commands = new List<Func<Task>>();
+        }
         public MongoContext(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -49,6 +52,12 @@ namespace WebClientOrder.Infra.Context
             MongoClient = new MongoClient(_configuration["MongoSettings:Connection"]);
 
             Database = MongoClient.GetDatabase(_configuration["MongoSettings:DatabaseName"]);
+        }
+
+        public void ConfigureMongo(MongoClient mongoClient, IMongoDatabase mongoDatabase)
+        {
+            MongoClient = mongoClient;
+            Database = mongoDatabase;
         }
 
         public IMongoCollection<T> GetCollection<T>(string name)
