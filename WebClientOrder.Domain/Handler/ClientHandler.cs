@@ -75,7 +75,7 @@ namespace WebClientOrder.Domain.Handler
             var exists = await _clientRepository.GetDocument(document);
 
             if (exists != null)
-                throw new ValidationException("Product already registred!");
+                throw new ValidationException("Client already registered!");
         }
        
     }

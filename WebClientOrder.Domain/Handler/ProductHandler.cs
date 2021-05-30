@@ -75,7 +75,7 @@ namespace WebClientOrder.Domain.Handler
             var exists = await _productRepository.GetProductDescription(description);
 
             if (exists != null)
-                throw new ValidationException("Product already registred!");
+                throw new ValidationException("Product already registered!");
         }
 
         

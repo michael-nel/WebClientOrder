@@ -69,6 +69,38 @@ namespace WebClientOrder.Test.Integration.Handle
         }
 
         [Fact]
+        public async Task Shouldbe_Product_Exists_To_New_Product()
+        {
+            var description = _faker.Commerce.ProductDescription();
+            var value = _faker.Random.Decimal();
+
+            var product = new Product(description, value);
+
+            _productRepository.Add(product);
+
+            await _context.SaveChanges();
+
+            DisposeAndReCreate();
+
+            _productHandler = new ProductHandler(_productRepository);
+
+            var newDescription = description;
+            var newValue = _faker.Random.Decimal();
+
+            var createCommand = new CreateProductCommand
+            {
+                Description = newDescription,
+                Value = newValue
+            };
+
+            var response = await Assert.ThrowsAsync<System.ComponentModel.DataAnnotations.ValidationException>(() => _productHandler.Handle(createCommand));
+
+            Assert.Equal("Product already registered!", response.ValidationResult.ToString());
+
+            _runner.Dispose();
+        }
+
+        [Fact]
         public async Task Shouldbe_Update_A_Product()
         {
             var description = _faker.Commerce.ProductDescription();
