@@ -19,12 +19,13 @@ namespace WebClientOrder.Test.Integration.Repository
         private readonly Faker _faker;
         private MongoClient _client;
         private IMongoDatabase _database;
+        private MongoDbRunner _runner;
 
         public ClientRepositoryTest()
         {
             _faker = new Faker("pt_BR");
-            var runner = MongoDbRunner.Start();
-            _client = new MongoClient(runner.ConnectionString);
+            _runner = MongoDbRunner.Start();
+            _client = new MongoClient(_runner.ConnectionString);
             _database = _client.GetDatabase("IntegrationTest");
             _context = new MongoContext();
             _context.ConfigureMongo(_client, _database);
@@ -51,6 +52,7 @@ namespace WebClientOrder.Test.Integration.Repository
             var allClients = await _clientRepository.GetAll();
 
             Assert.Equal(3, allClients.Count());
+            _runner.Dispose();
         }
 
         [Fact]
@@ -77,6 +79,7 @@ namespace WebClientOrder.Test.Integration.Repository
             var findDeleted = await _clientRepository.GetById(findClient.Id);
 
             Assert.Null(findDeleted);
+            _runner.Dispose();
         }
 
         [Fact]
@@ -110,6 +113,7 @@ namespace WebClientOrder.Test.Integration.Repository
 
             Assert.Equal(nameUpdate, findClientUpdated.Name);
             Assert.Equal(emailUpdate, findClientUpdated.Email);
+            _runner.Dispose();
         }
 
         [Fact]
@@ -128,6 +132,7 @@ namespace WebClientOrder.Test.Integration.Repository
             var findByClientDocument = await _clientRepository.GetDocument(document);
 
             Assert.Equal(document, findByClientDocument.Document);
+            _runner.Dispose();
         }
     }
 }

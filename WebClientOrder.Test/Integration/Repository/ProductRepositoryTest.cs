@@ -17,13 +17,14 @@ namespace WebClientOrder.Test.Integration.Repository
         private MongoContext _context;
         private readonly Faker _faker;
         private MongoClient _client;
+        private MongoDbRunner _runner;
         private IMongoDatabase _database;
 
         public ProductRepositoryTest()
         {
             _faker = new Faker("pt_BR");
-            var runner = MongoDbRunner.Start();
-            _client = new MongoClient(runner.ConnectionString);
+            _runner = MongoDbRunner.Start();
+            _client = new MongoClient(_runner.ConnectionString);
             _database = _client.GetDatabase("IntegrationTest");
             _context = new MongoContext();
             _context.ConfigureMongo(_client, _database);
@@ -41,7 +42,6 @@ namespace WebClientOrder.Test.Integration.Repository
         [Fact]
         public async Task Shoulbe_Add_3_Products_And_Get_All()
         {
-
             _productRepository.Add(new Product(_faker.Commerce.ProductDescription(), _faker.Random.Decimal()));
             _productRepository.Add(new Product(_faker.Commerce.ProductDescription(), _faker.Random.Decimal()));
             _productRepository.Add(new Product(_faker.Commerce.ProductDescription(), _faker.Random.Decimal()));
@@ -51,6 +51,7 @@ namespace WebClientOrder.Test.Integration.Repository
             var allProducts = await  _productRepository.GetAll();
 
             Assert.Equal(3, allProducts.Count());
+            _runner.Dispose();
         }
 
         [Fact]
@@ -75,6 +76,7 @@ namespace WebClientOrder.Test.Integration.Repository
             var findDeleted = await _productRepository.GetById(findProduct.Id);
 
             Assert.Null(findDeleted);
+            _runner.Dispose();
         }
 
         [Fact]
@@ -105,6 +107,7 @@ namespace WebClientOrder.Test.Integration.Repository
 
             Assert.Equal(descriptionUpdate, findProductUpdated.Description);
             Assert.Equal(valueUpdate, findProductUpdated.Value);
+            _runner.Dispose();
         }
 
         [Fact]
@@ -121,6 +124,7 @@ namespace WebClientOrder.Test.Integration.Repository
             var findByProductName = await _productRepository.GetProductDescription(description);
 
             Assert.Equal(description, findByProductName.Description);
+            _runner.Dispose();
         }
     }
 }
