@@ -74,7 +74,7 @@ namespace WebClientOrder.Test.Integration.Repository
 
             var findDeleted = await _productRepository.GetById(findProduct.Id);
 
-            Assert.Equal(null, findDeleted);
+            Assert.Null(findDeleted);
         }
 
         [Fact]
