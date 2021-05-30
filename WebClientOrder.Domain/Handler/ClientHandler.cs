@@ -63,12 +63,12 @@ namespace WebClientOrder.Domain.Handler
         }
         private async Task<Client> GetById(Guid id)
         {
-            var product = await _clientRepository.GetById(id);
+            var client = await _clientRepository.GetById(id);
 
-            if (product == null)
+            if (client == null)
                 throw new ValidationException("Client not found it!");
 
-            return product;
+            return client;
         }
         private async Task CheckDocumentExist(string document)
         {

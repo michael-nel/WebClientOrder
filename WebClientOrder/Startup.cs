@@ -58,10 +58,12 @@ namespace WebClientOrder
             #region Handler
             services.AddTransient<ProductHandler, ProductHandler>();
             services.AddTransient<ClientHandler, ClientHandler>();
+            services.AddTransient<OrderHandler, OrderHandler>();
             #endregion Handler
 
             #region Services
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ICepService, CepService>();
             #endregion
         }
 
