@@ -24,8 +24,4 @@
     <ProjectReference Include="..\WebClientOrder\WebClientOrder.Api.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Integration\Service\" />
-  </ItemGroup>
-
 </Project>
